@@ -1,29 +1,23 @@
-# phaser
+# notsilas
 
-## Project setup
-```
+A collaboration effort by Silent Silas and notchris of notcorp fame.
+
+## Installation
+
+You can use npm, but I use yarn, idk why. Someone told me to and then I did and I still do, but sometimes I don't. It depends.
+
+```bash
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
+## Usage
+
+```bash
+yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+## Contributing
+Can you contribute to my sadness...or my devotion...?
 
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## License
+Mountain License - There is a capsule buried at the following coordinates: 42.0448° N, 73.4548° W at the peak of Bear Mountain. Within the capsule contains the rights to this incredible files.

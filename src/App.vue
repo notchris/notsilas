@@ -1,28 +1,52 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+      <canvas ref="canvas" width="612" height="384"></canvas>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Phaser from 'phaser';
+import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
+import Loading from "./Loading.js";
+import MainScene from "./sceneA.js";
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
+  data () {
+    return {
+
+    }
+  },
+  mounted () {
+    let config = {
+        type: Phaser.WEBGL,
+        canvas: this.$refs.canvas,
+        antialias: true,
+        pixelArt: true,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        backgroundColor: '#222222',
+        physics: {
+            default: 'matter',
+            matter: {
+              debug: true
+            }
+        },
+        plugins: {
+          scene: [
+            {
+              plugin: PhaserMatterCollisionPlugin, // The plugin class
+              key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
+              mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+            }
+          ]
+        },
+        scene: [Loading,MainScene],
+        map: null
+    };
+    const game = new Phaser.Game(config);
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

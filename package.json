@@ -1,5 +1,5 @@
 {
-  "name": "phaser",
+  "name": "notsilas",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,12 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "matter-js": "^0.14.2",
+    "phaser": "^3.16.2",
+    "phaser-matter-collision-plugin": "^0.10.2",
+    "polygon": "^1.0.2",
+    "polylabel": "^1.0.2",
+    "raw-loader": "^3.1.0",
     "vue": "^2.6.10"
   },
   "devDependencies": {
