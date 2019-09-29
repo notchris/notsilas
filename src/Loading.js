@@ -68,7 +68,6 @@ export default class Loading extends Phaser.Scene {
             let points = poly.toArray();
             let bbox = poly.aabb();
             let padding = poly.offset(-10).toArray()
-            console.log(padding)
             let p = this.make.graphics();
             p.beginPath();
             p.fillStyle(0x9b9b9b, 1)
@@ -76,16 +75,6 @@ export default class Loading extends Phaser.Scene {
             p.moveTo(points[0][0] - bbox.x,points[0][1] - bbox.y);
             for (let i = 1; i < points.length; i++) {
                 p.lineTo(points[i][0] - bbox.x, points[i][1] - bbox.y);
-            }
-            p.closePath();
-            p.fillPath();
-
-            p.beginPath();
-            p.fillStyle(0x777777, 1)
-            
-            p.moveTo(padding[0][0] - bbox.x,padding[0][1] - bbox.y);
-            for (let i = 1; i < padding.length; i++) {
-                p.lineTo(padding[i][0] - bbox.x, padding[i][1] - bbox.y);
             }
             p.closePath();
             p.fillPath();

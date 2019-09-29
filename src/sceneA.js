@@ -54,8 +54,6 @@ export default class MainScene extends Phaser.Scene {
 
     onPlayerCollide({ gameObjectB }) {
       if (!gameObjectB) return;
-
-      console.log(gameObjectB)
   
       //const tile = gameObjectB;
   

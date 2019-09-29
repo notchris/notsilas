@@ -1,7 +1,7 @@
 /* jshint esversion: 9 */
 
 import MultiKey from "./multikey.js";
-
+const { Body, World, Bodies } = Phaser.Physics.Matter.Matter; 
 export default class Player {
   constructor(scene, x, y) {
     this.scene = scene;
@@ -9,8 +9,8 @@ export default class Player {
     // Create the physics-based sprite that we will move around and animate
     this.sprite = scene.matter.add.sprite(0, 0, "player", 0);
 
-
-    const { Body, Bodies } = Phaser.Physics.Matter.Matter; 
+    this.hook = null;
+    
     const { width: w, height: h } = this.sprite;
     const mainBody = Bodies.rectangle(0, 0, w * 0.6, h);
     this.sensors = {
@@ -60,10 +60,36 @@ export default class Player {
     this.jumpInput = new MultiKey(scene, [UP, W]);
     this.attackInput = new MultiKey(scene, [SPACE]);
 
+
+    this.scene.input.on('pointerdown',  (pointer) => {
+      this.createHook(pointer.x, pointer.y);
+  }, this.scene);
+
+
     this.destroyed = false;
     this.scene.events.on("update", this.update, this);
     this.scene.events.once("shutdown", this.destroy, this);
     this.scene.events.once("destroy", this.destroy, this);
+
+  }
+
+  createHook (x, y) {
+    let rx = x + this.scene.cameras.main.scrollX;
+    let ry = y + this.scene.cameras.main.scrollY;
+
+    this.breakHook();
+
+    this.hook = Phaser.Physics.Matter.Matter.Constraint.create({
+      pointA: { x: rx, y: ry },
+      bodyB: this.sprite.body
+    });
+    this.scene.matter.world.add(this.hook);
+  }
+  breakHook () {
+    if (this.hook) {
+      this.scene.matter.world.remove(this.hook);
+      this.hook = false;
+    }
   }
 
   onSensorCollide({ bodyA, bodyB, pair }) {
@@ -112,7 +138,7 @@ export default class Player {
       }
     }
 
-    if (isJumpKeyDown && this.canJump && isOnGround) {
+    if (isJumpKeyDown && this.canJump && isOnGround || isJumpKeyDown && this.canJump && this.hook) {
       sprite.setVelocityY(-8);
 
       this.canJump = false;
@@ -120,6 +146,18 @@ export default class Player {
         delay: 250,
         callback: () => (this.canJump = true)
       });
+    }
+
+    // Hook
+
+    if (this.hook) {
+     // Shorten distance
+     if (this.hook.length > 60) {
+      this.hook.length -= 6;
+     }
+     if (isJumpKeyDown) {
+       this.breakHook()
+     }
     }
 
   }
