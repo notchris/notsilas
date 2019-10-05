@@ -10,7 +10,7 @@ export default class Player {
     this.sprite = scene.matter.add.sprite(0, 0, "player", 0);
 
     this.hook = null;
-    
+
     const { width: w, height: h } = this.sprite;
     const mainBody = Bodies.rectangle(0, 0, w * 0.6, h);
     this.sensors = {
@@ -63,8 +63,11 @@ export default class Player {
 
     this.scene.input.on('pointerdown',  (pointer) => {
       this.createHook(pointer.x, pointer.y);
-  }, this.scene);
+    }, this.scene);
 
+    this.scene.input.on('pointerup', (pointer) => {
+      this.breakHook();
+    });
 
     this.destroyed = false;
     this.scene.events.on("update", this.update, this);
@@ -152,11 +155,10 @@ export default class Player {
 
     if (this.hook) {
      // Shorten distance
-     if (this.hook.length > 60) {
+     if (this.hook.length > 30) {
       this.hook.length -= 6;
-     }
-     if (isJumpKeyDown) {
-       this.breakHook()
+     } else {
+       this.breakHook();
      }
     }
 
