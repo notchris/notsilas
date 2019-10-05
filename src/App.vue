@@ -31,7 +31,13 @@ export default {
         physics: {
             default: 'matter',
             matter: {
-              debug: true
+              debug: true,
+              gravity: {
+                scale: 0.0009
+              },
+              plugins: {
+                attractors: true
+              }
             }
         },
         plugins: {

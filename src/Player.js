@@ -10,6 +10,8 @@ export default class Player {
     this.sprite = scene.matter.add.sprite(0, 0, "player", 0);
 
     this.hook = null;
+    this.HOOK_RETRACT_MAX = 15;
+    this.HOOK_DIST_MAX = 600;
 
     const { width: w, height: h } = this.sprite;
     const mainBody = Bodies.rectangle(0, 0, w * 0.6, h);
@@ -86,6 +88,7 @@ export default class Player {
       pointA: { x: rx, y: ry },
       bodyB: this.sprite.body
     });
+
     this.scene.matter.world.add(this.hook);
   }
   breakHook () {
@@ -154,9 +157,18 @@ export default class Player {
     // Hook
 
     if (this.hook) {
+
      // Shorten distance
      if (this.hook.length > 30) {
-      this.hook.length -= 6;
+      let distanceScalar = Phaser.Math.Distance.Between(this.hook.pointA.x, this.hook.pointB.y, this.sprite.x, this.sprite.y);
+
+      // clamp distance at 600, normalize it, then take it to the power of 2
+      distanceScalar = Math.pow( 
+          (Math.min(Math.max(distanceScalar, 0), this.HOOK_DIST_MAX) / this.HOOK_DIST_MAX)
+      , 2);
+
+      // use scalar to determine how much rope should retract
+      this.hook.length -= this.HOOK_RETRACT_MAX * distanceScalar;
      } else {
        this.breakHook();
      }
