@@ -174,6 +174,33 @@ export default class Player {
      }
     }
 
+    // Clamp max velocity of player
+    if (this.sprite.body.velocity.x > 10) {
+      Body.setVelocity(this.sprite.body, {
+        x: 10,
+        y: this.sprite.body.velocity.y
+      });
+    }
+    if (this.sprite.body.velocity.y > 10) {
+      Body.setVelocity(this.sprite.body, {
+        x: this.sprite.body.velocity.x,
+        y: 10
+      });
+    }
+    if (this.sprite.body.velocity.x < -10) {
+      Body.setVelocity(this.sprite.body, {
+        x: -10,
+        y: this.sprite.body.velocity.y
+      });
+    }
+    if (this.sprite.body.velocity.y < -10) {
+      Body.setVelocity(this.sprite.body, {
+        x: this.sprite.body.velocity.x,
+        y: -10
+      });
+    }
+    
+
   }
 
   destroy() {
